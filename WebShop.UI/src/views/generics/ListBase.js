@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import MenuBurger from 'src/img/menu-burger.svg';
 import MenuGrid from 'src/img/menu-grid.svg';
-import PropTypes from 'prop-types';
 import ContentBase from './ContentBase';
 
 const listTypes = {
@@ -35,11 +35,12 @@ const ListBase = ({title, listType, switchType, MenuBtn = DefaultMenuBtn, childr
 );
 ListBase.propTypes = {
 	title: PropTypes.string.isRequired,
-	listType: PropTypes.string.isRequired,
+	listType: PropTypes.string,
 	switchType: PropTypes.func
 };
 ListBase.defaultProps = {
 	listTypes: 'tile',
+	switchType: () => 0,
 };
 
 export {listTypes, DefaultMenuBtn, ListBase};

@@ -1,4 +1,5 @@
 import {API_PREFIX_TYPE} from './api';
+import {cookies} from "../../configs";
 
 // Types
 const TOKEN_PREFIX = API_PREFIX_TYPE + 'TOKEN:';
@@ -48,9 +49,12 @@ const clearToken = () => ({
 const login = getToken;
 const logout = clearToken;
 
+const token = cookies.get('TOKEN');
+
 // Reducer
 const initState = {
-	loggedIn: false
+	loggedIn: !!token,
+	token,
 };
 
 const authReducer = (state = initState, action) => {

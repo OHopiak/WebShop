@@ -3,11 +3,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {ContentBase} from 'src/views/generics';
-import ItemCreateEdit from "../../components/items/CreateEdit";
-import {createItem, editItem, getItem, selectItemById} from "../../data/modules/items";
+import {ItemCreateEdit} from "src/components/items";
+import {createItem, editItem, getItem, selectItemById} from "src/data/modules/items";
+import {getCategories, selectCategoryList} from "../../data/modules/categories";
 
 const setupStore = connect((store, {match}) => ({
 	item: selectItemById(store)(match.params.id),
+	categories: selectCategoryList(store),
 }), (dispatch, {match}) => ({
 	getItem: () => {
 		// const filter = {item: match.params.id};
@@ -16,6 +18,7 @@ const setupStore = connect((store, {match}) => ({
 	},
 	createItem: data => dispatch(createItem(data)),
 	editItem: data => dispatch(editItem(data)),
+	getCategories: () => dispatch(getCategories()),
 }));
 
 @setupStore
@@ -27,9 +30,10 @@ class ItemCreateEditView extends React.PureComponent {
 	};
 
 	componentWillMount() {
-		const {match, getItem} = this.props;
+		const {match, getItem, categories, getCategories} = this.props;
 		const id = match.params.id;
 		if (!!id) getItem();
+		if (!categories) getCategories();
 	}
 
 	handleSubmit = data => {
@@ -41,11 +45,13 @@ class ItemCreateEditView extends React.PureComponent {
 	};
 
 	render() {
-		const {item} = this.props;
+		const {item, categories} = this.props;
 		const title = item ? `Edit ${item.name}` : "Create Item";
 		return (
 			<ContentBase title={title}>
-				<ItemCreateEdit item={item} handleSubmit={this.handleSubmit}/>
+				<ItemCreateEdit item={item}
+								handleSubmit={this.handleSubmit}
+								categories={categories}/>
 			</ContentBase>
 		);
 	}

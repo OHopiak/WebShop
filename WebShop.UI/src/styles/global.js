@@ -18,7 +18,7 @@ const globalStyles = {
 		a: {
 			'&, &:hover, &:visited, &:active': {
 				textDecoration: 'none',
-				color: '#000',
+				color: 'inherit',
 			},
 		},
 	}

@@ -17,7 +17,7 @@ const config = {
 	module: {
 		rules: [
 			{
-				test: /\.jsx?/,
+				test: /\.jsx?$/,
 				include: __dirname,
 				exclude: /(node_modules|bower_compontents)/,
 				loader: 'babel-loader'

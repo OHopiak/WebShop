@@ -3,7 +3,6 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import {Button} from "@material-ui/core";
-import MenuItem from "@material-ui/core/MenuItem";
 
 const styles = theme => ({
 	container: {
@@ -24,26 +23,23 @@ const styles = theme => ({
 });
 
 @withStyles(styles)
-class ItemCreateEdit extends React.Component {
-
+class CategoryCreateEdit extends React.Component {
 	constructor(props) {
 		super(props);
-		const {item = {}} = this.props;
+		const {category = {}} = this.props;
 		this.state = {
-			name: item.name || '',
-			description: item.description || '',
-			price: item.price || '',
-			category: item.category || 0,
+			name: category.name || '',
+			description: category.description || '',
 		};
 	}
 
 	handleChange = name => event => {
-		const {value} = event.target;
-		this.setState({[name]: value});
+		this.setState({[name]: event.target.value});
 	};
 
 	handleSubmit = e => {
 		e.preventDefault();
+		console.log(e);
 		const data = this.state;
 		if (this.validate(data))
 			this.props.handleSubmit(data);
@@ -54,13 +50,13 @@ class ItemCreateEdit extends React.Component {
 	};
 
 	validate = data => {
-		const {name, description, price} = data;
-		return !!name && !!description && !isNaN(price) && price > 0;
+		const {name, description} = data;
+		return !!name;
 	};
 
 	render() {
-		const {classes, categories} = this.props;
-		const {name, description, price} = this.state;
+		const {classes} = this.props;
+		const {name, description} = this.state;
 		return (
 			<Paper className={classes.container}>
 				<form className={classes.form} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
@@ -69,6 +65,7 @@ class ItemCreateEdit extends React.Component {
 						value={name}
 						className={classes.textField}
 						fullWidth
+						required
 						onChange={this.handleChange('name')}
 						margin="normal"
 					/>
@@ -81,37 +78,6 @@ class ItemCreateEdit extends React.Component {
 						onChange={this.handleChange('description')}
 						margin="normal"
 					/>
-					<TextField
-						select
-						label="Category"
-						fullWidth
-						className={classes.textField}
-						value={this.state.category}
-						onChange={this.handleChange('category')}
-						// InputProps={{
-						// 	startAdornment: <InputAdornment position="start">Kg</InputAdornment>,
-						// }}
-					>
-						{categories && categories.map(category => (
-							<MenuItem key={category.id} value={category.id}>
-								{category.name}
-							</MenuItem>
-						))}
-						<MenuItem key={0} value={0}>
-							Other
-						</MenuItem>
-					</TextField>
-
-					<TextField
-						label="Price"
-						value={price}
-						className={classes.textField}
-						type='number'
-						fullWidth
-						onChange={this.handleChange('price')}
-						margin="normal"
-					/>
-
 					<Button variant='contained' color='primary' onClick={this.handleSubmit}
 							className={classes.submitBtn}>Create</Button>
 				</form>
@@ -120,4 +86,4 @@ class ItemCreateEdit extends React.Component {
 	}
 }
 
-export default ItemCreateEdit;
+export default CategoryCreateEdit;

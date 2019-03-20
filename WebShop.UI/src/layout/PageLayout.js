@@ -5,7 +5,7 @@ import {urlMap} from './UrlMap';
 
 const PageLayout = ({urls, NotFound, Header, Footer}) => (
 	<CollapseProvider>
-		<Header urls={urls}/>
+		{/*<Header urls={urls}/>*/}
 		<Switch>
 			{/*<UrlMap urls={urls}/>*/}
 			{urlMap(urls)}

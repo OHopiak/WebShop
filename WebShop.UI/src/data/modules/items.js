@@ -1,4 +1,5 @@
-import {apiEndpoint, createEndpointUrl} from './api';
+import {apiEndpoint} from './api';
+import {createEndpointUrl} from "../../configs/urls";
 
 const endpoint = '/items';
 
@@ -12,6 +13,7 @@ const getItems = actions.getAll;
 const getItem = actions.getById;
 const createItem = actions.create;
 const editItem = actions.edit;
+const deleteItem = actions.delete;
 
 // Selectors
 const selectItemSet = state => state.items.set;
@@ -26,6 +28,7 @@ export {
 	getItem,
 	createItem,
 	editItem,
+	deleteItem,
 
 	selectItemSet,
 	selectItemList,

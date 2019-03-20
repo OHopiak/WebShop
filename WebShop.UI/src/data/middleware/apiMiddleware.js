@@ -1,7 +1,7 @@
-import axios from 'axios';
+import qs from 'query-string'
+
 import {API_PREFIX_TYPE} from '../modules/api';
 import {NOP_ACTION} from '../actions';
-import {toQueryParams} from '../../utils';
 
 const normalize = target => target.reduce((map, obj) => {
 	map[obj.id] = obj;
@@ -28,57 +28,44 @@ const apiMiddleware = config => store => next => action => {
 		return;
 	}
 
+	const options = {
+		headers: {
+			'Content-Type': 'application/json',
+		}
+	};
+	const {auth} = store.getState();
 
-	let client = axios;
+	if (auth && auth.token)
+		options.headers.Authorization = `JWT ${auth.token}`;
 
-	if (store.auth && store.auth.token) {
-		client = axios.create({
-			headers: {
-				common: {
-					Authorization: `JWT ${store.auth.token}`
-				}
-			}
-		});
-	}
+	const {body, url: requestUrl, ref, method = 'GET'} = action.payload;
 
-	let request = null;
 	let url = null;
 
-	if (action.payload.url)
-		url = action.payload.url;
-	else if (action.payload.ref)
-		url = config.urls[action.payload.ref];
+	if (requestUrl)
+		url = requestUrl;
+	else if (ref)
+		url = config.urls[ref];
 	else {
 		next(NOP_ACTION);
 		return;
 	}
 
-	const requestData = action.payload.body;
-	const method = action.payload.method ? action.payload.method : 'GET';
+	options.method = method;
 
-	switch (method) {
-		case 'GET':
-			if (requestData) url += '?' + toQueryParams(requestData);
-			request = client.get(url);
-			break;
-		case 'POST':
-			request = client.post(url, requestData);
-			break;
-		case 'PUT':
-			request = client.put(url, requestData);
-			break;
-		case 'PATCH':
-			request = client.patch(url, requestData);
-			break;
-		case 'DELETE':
-			request = client.delete(url, requestData);
-			break;
-		default:
-			next(NOP_ACTION);
-			return;
+	if (body) {
+		if (options.method === 'GET')
+			url += '?' + qs.stringify(body);
+		else
+			options.body = JSON.stringify(body);
 	}
-
-	request
+	console.log({url, options});
+	fetch(url, options)
+		.then(resp => {
+			if (resp.status < 200 || resp.status >= 300)
+				throw resp;
+			return resp.json();
+		})
 		.then(response => {
 			let newAction = NOP_ACTION;
 			if (action.type.endsWith('CREATE') || action.type.endsWith('EDIT')) {
@@ -86,22 +73,22 @@ const apiMiddleware = config => store => next => action => {
 					type: action.type,
 					payload: {
 						...action.payload,
-						data: response.data,
+						data: response,
 					},
 				};
 			} else {
 				const isObject = action.type.endsWith('GET');
 
 				const data = isObject
-					? [response.data]
-					: response.data.results || [];
+					? [response]
+					: response.results || [];
 
 				const set = normalize(data);
 				newAction = {
 					type: action.type,
 					payload: {
 						...action.payload,
-						...(isObject ? {} : response.data),
+						...(isObject ? {} : response),
 						set: set,
 					},
 				}
@@ -110,8 +97,13 @@ const apiMiddleware = config => store => next => action => {
 			next(newAction);
 		})
 		.catch(error => {
-			console.error(error);
-			console.error(action);
+			if (error.json) {
+				error.json()
+					.then(data => console.log("Request failed: " + data.detail))
+					.catch(error => console.log("Request failed, unexpected error: " + error));
+			} else {
+				console.log("Request failed, unexpected error: " + error)
+			}
 			next(NOP_ACTION);
 		});
 };

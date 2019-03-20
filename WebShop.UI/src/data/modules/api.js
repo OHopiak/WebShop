@@ -1,3 +1,5 @@
+import {createEndpointUrl} from "../../configs/urls";
+
 const API_PREFIX_TYPE = 'API:';
 
 const generateListActionType = name => {
@@ -11,6 +13,7 @@ const generateListActionType = name => {
 		CLEAR_LAST: prefix + 'CLEAR_LAST',
 		CREATE: prefix + 'CREATE',
 		EDIT: prefix + 'EDIT',
+		DELETE: prefix + 'DELETE',
 	});
 };
 
@@ -75,12 +78,12 @@ const apiEndpoint = (type, endpoint, initState = {}) => {
 						[action.payload.data.id]: action.payload.data,
 					},
 					list: [
-						...state.list,
+						...(state.list || []),
 						action.payload.data,
 					],
 					fetched: true,
 				};
-			case TYPE.EDIT:
+			case TYPE.EDIT: {
 				const position = state.list.findIndex(x => +x.id === +action.payload.data.id);
 				const newList = [...state.list];
 				newList[position] = action.payload.data;
@@ -93,18 +96,29 @@ const apiEndpoint = (type, endpoint, initState = {}) => {
 					list: newList,
 					fetched: true,
 				};
+			}
+			case TYPE.DELETE: {
+				const newList = state.list.filter(x => +x.id !== action.payload.data.id);
+				return {
+					...state,
+					set: {
+						...state.set,
+						[action.payload.data.id]: undefined,
+					},
+					list: newList,
+					fetched: true,
+				};
+			}
 			default:
 				return state;
 		}
 	};
 	const actions = {
-		getAll: (ordering) => ({
+		getAll: (filter) => ({
 			type: TYPE.GET_ALL,
 			payload: {
 				url: endpointUrl('/'),
-				body: ordering && {
-					ordering: ordering,
-				}
+				body: filter,
 			}
 		}),
 		getFiltered: (filter) => ({
@@ -136,6 +150,13 @@ const apiEndpoint = (type, endpoint, initState = {}) => {
 				body: data,
 			}
 		}),
+		delete: id => ({
+			type: TYPE.EDIT,
+			payload: {
+				url: endpointUrl(`/${id}/`),
+				method: 'DELETE',
+			}
+		}),
 	};
 
 	return {
@@ -146,16 +167,8 @@ const apiEndpoint = (type, endpoint, initState = {}) => {
 	};
 };
 
-const API_URL_PREFIX = '/api';
-
-const apiUrl = url => API_URL_PREFIX + url;
-
-const createEndpointUrl = endpoint => url => API_URL_PREFIX + endpoint + url;
-
 export {
 	API_PREFIX_TYPE,
 	generateListActionType,
 	apiEndpoint,
-	apiUrl,
-	createEndpointUrl,
 };

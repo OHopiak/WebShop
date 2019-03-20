@@ -5,7 +5,6 @@ import Drawer from '@material-ui/core/Drawer/Drawer';
 import Divider from '@material-ui/core/Divider/Divider';
 import List from '@material-ui/core/List/List';
 import ListItem from '@material-ui/core/ListItem/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText/ListItemText';
 import withStyles from '@material-ui/core/styles/withStyles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -15,6 +14,7 @@ import {collapsible} from 'src/utils/CollapseDrawer';
 import withWidth, {isWidthUp} from '@material-ui/core/withWidth';
 import {compose} from 'recompose';
 import {ShowOnLoggedIn, ShowOnLoggedOff} from './decorators/showOnLoginStatus';
+import {APP_TITLE} from '../configs/configs.json'
 
 const drawerWidth = 255;
 const styles = theme => ({
@@ -59,7 +59,7 @@ const styles = theme => ({
 const MenuItem = ({url, name}) => (
 	<Link to={url.path} key={`link-${name}`}>
 		<ListItem button>
-			<ListItemIcon children={url.icon}/>
+			{/*<ListItemIcon children={url.icon}/>*/}
 			<ListItemText primary={url.name}/>
 		</ListItem>
 	</Link>
@@ -91,7 +91,7 @@ const Header = ({urls, classes, collapsed, toggleCollapse, width}) => (
 		className={classes.drawer}
 	>
 		<div className={classes.drawerHeader}>
-			<Typography variant='h4' className={cn({[classes.hidden]: collapsed})}>Codegram</Typography>
+			<Typography variant='h4' className={cn({[classes.hidden]: collapsed})}>{APP_TITLE}</Typography>
 			<IconButton onClick={toggleCollapse} className={classes.drawerCollapse}>
 				<ChevronLeftIcon/>
 			</IconButton>

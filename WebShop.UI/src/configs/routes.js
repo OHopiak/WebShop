@@ -1,12 +1,14 @@
 import React from 'react';
 import HomeIcon from '@material-ui/icons/Home';
-import CodeIcon from '@material-ui/icons/Code';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import AppsIcon from '@material-ui/icons/Apps';
 import MessageIcon from '@material-ui/icons/Message';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 import FaceIcon from '@material-ui/icons/Face';
 import {Footer, Header, Home, Login, Logout, Messages, NotFound} from 'src/components';
 import {ItemsCreateEditView, ItemsDetailsView, ItemsListView} from 'src/views/items';
 import UsersListView from 'src/views/users/List';
+import {CategoriesCreateEditView, CategoriesDetailsView, CategoriesListView} from "../views/categories";
 
 const routes = {
 	urls: {
@@ -15,14 +17,14 @@ const routes = {
 			path: '/',
 			name: 'Home',
 			component: Home,
-			icon: <HomeIcon/>,
+			icon: HomeIcon,
 		},
 		items: {
 			path: '/items',
 			name: 'Items',
 			exact: true,
 			component: ItemsListView,
-			icon: <CodeIcon/>,
+			icon: ShoppingCartIcon,
 			routes: {
 				create: {
 					path: '/create',
@@ -45,27 +47,59 @@ const routes = {
 					enableCustomUrls: true,
 					component: ItemsDetailsView,
 				},
-			}
+			},
+			// modifiers: ['loginRequired'],
+		},
+		categories: {
+			path: '/categories',
+			name: 'Categories',
+			exact: true,
+			component: CategoriesListView,
+			icon: AppsIcon,
+			routes: {
+				create: {
+					path: '/create',
+					name: 'Create Category',
+					exact: true,
+					enableCustomUrls: true,
+					component: CategoriesCreateEditView,
+				},
+				edit: {
+					path: '/:id/edit',
+					name: 'Edit Category',
+					exact: true,
+					enableCustomUrls: true,
+					component: CategoriesCreateEditView,
+				},
+				details: {
+					path: '/:id',
+					name: 'Category Details',
+					exact: true,
+					enableCustomUrls: true,
+					component: CategoriesDetailsView,
+				},
+			},
+			// modifiers: ['loginRequired'],
 		},
 		users: {
 			path: '/users',
 			name: 'Users',
 			exact: true,
 			component: UsersListView,
-			icon: <FaceIcon/>,
+			icon: FaceIcon,
 		},
 		messages: {
 			path: '/messages',
 			name: 'Messages',
 			component: Messages,
-			icon: <MessageIcon/>,
+			icon: MessageIcon,
 			modifiers: ['loginRequired'],
 		},
 		logout: {
 			path: '/logout',
 			name: 'Logout',
 			component: Logout,
-			icon: <LogoutIcon/>,
+			icon: LogoutIcon,
 			modifiers: ['showOnLoggedIn'],
 		}
 	},

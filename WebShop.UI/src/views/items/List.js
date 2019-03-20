@@ -1,48 +1,45 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import qs from 'query-string'
 
 import {getItems, getUsers} from 'src/data/actions';
-import {ListBase, listTypes} from 'src/views/generics';
+import {ListBase} from 'src/views/generics';
 import {ItemList} from 'src/components/items';
-import {selectItemList} from "src/data/modules/items";
+import {deleteItem, selectItemList} from "src/data/modules/items";
 
 const setupStore = connect((store) => ({
 	items: selectItemList(store),
 }), (dispatch) => ({
-	getItems: () => dispatch(getItems()),
+	getItems: (filter) => dispatch(getItems(filter)),
+	deleteItem: id => dispatch(deleteItem(id)),
 	getUsers: () => dispatch(getUsers()),
 }));
 
 class ItemsListView extends React.PureComponent {
 	static propTypes = {
 		items: PropTypes.array,
-	};
-
-	state = {
-		listType: 'tile'
-	};
-
-	switchListType = () => {
-		this.setState({
-			listType: listTypes[this.state.listType]
-		});
+		getItems: PropTypes.func.isRequired,
+		deleteItem: PropTypes.func.isRequired,
+		getUsers: PropTypes.func.isRequired,
 	};
 
 	componentWillMount() {
-		if (!this.props.items)
-			this.props.getItems();
+		const {items, getItems, history} = this.props;
+		const {search} = qs.parse(history.location.search);
+		const filter = search && {search};
+		if (!items) getItems(filter);
 	}
 
 	render() {
+		let {items, deleteItem, history} = this.props;
+		const {search} = qs.parse(history.location.search);
+		if (search && items) items = items.filter(i =>
+			i.name.toLowerCase().includes(search.toLowerCase())
+		);
 		return (
-			<ListBase title={'Items'}
-					  switchType={this.switchListType}
-					  listType={this.state.listType}>
-				<ItemList
-					listType={this.state.listType}
-					items={this.props.items}
-				/>
+			<ListBase title={'Items'}>
+				<ItemList items={items} deleteItem={deleteItem}/>
 			</ListBase>
 		);
 	}

@@ -4,28 +4,18 @@ import {Link} from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 import {getUrl} from 'src/configs/routes';
 import AddIcon from '@material-ui/icons/Add';
-import {
-	Button,
-	Card,
-	CardActionArea,
-	CardActions,
-	CardContent,
-	CardMedia,
-	Fab,
-	Grid,
-	Typography
-} from '@material-ui/core';
+import {Button, Card, CardActionArea, CardActions, CardContent, Fab, Grid, Typography} from '@material-ui/core';
 
 const styles = theme => ({
 	root: {
 		padding: 10,
 	},
-	items: {
+	categories: {
 		height: theme.vars.contentHeight,
 		overflow: 'auto',
 		padding: 5,
 	},
-	item: {
+	category: {
 		// height: '100%',
 	},
 	media: {
@@ -45,18 +35,13 @@ const styles = theme => ({
 	},
 });
 
-const ItemListItem = ({item, deleteItem, classes}) => {
-	const {id, name} = item;
+const CategoryListCategory = ({category, deleteCategory, classes}) => {
+	const {id, name} = category;
 	return (
 		<Grid item xs={12} sm={6} md={4} lg={3} className={classes.root}>
-			<Card className={classes.item}>
+			<Card className={classes.category}>
 				<CardActionArea>
-					<Link to={getUrl('items.details', {id})}>
-						<CardMedia
-							className={classes.media}
-							image="https://material-ui.com/static/images/cards/contemplative-reptile.jpg"
-							title={name}
-						/>
+					<Link to={getUrl('categories.details', {id})}>
 						<CardContent className={classes.cardContent}>
 							<Typography gutterBottom variant="h5" component="h2">
 								{name}
@@ -65,12 +50,12 @@ const ItemListItem = ({item, deleteItem, classes}) => {
 					</Link>
 				</CardActionArea>
 				<CardActions>
-					<Link to={getUrl('items.edit', {id})}>
+					<Link to={getUrl('categories.edit', {id})}>
 						<Button size="small" color="primary" variant="contained">
 							Edit
 						</Button>
 					</Link>
-					<Button size="small" color="secondary" variant="contained" onClick={deleteItem}>
+					<Button size="small" color="secondary" variant="contained" onClick={deleteCategory}>
 						Delete
 					</Button>
 				</CardActions>
@@ -78,41 +63,40 @@ const ItemListItem = ({item, deleteItem, classes}) => {
 		</Grid>
 	);
 };
-
-ItemListItem.propTypes = {
-	item: PropTypes.object.isRequired,
-	deleteItem: PropTypes.func.isRequired,
+CategoryListCategory.propTypes = {
+	category: PropTypes.object.isRequired,
+	deleteCategory: PropTypes.func.isRequired,
 	classes: PropTypes.object.isRequired,
 };
 
-const ItemList = ({items, deleteItem, classes}) => (
-	<div className={classes.items}>
-		<Link to={getUrl('items.create')}>
+const CategoryList = ({categories, deleteCategory, classes}) => (
+	<div className={classes.categories}>
+		<Link to={getUrl('categories.create')}>
 			<Fab color="primary" aria-label="Add" className={classes.createButton}>
 				<AddIcon/>
 			</Fab>
 		</Link>
 		<Grid container>
-			{items && items.map(item => (
-				<ItemListItem
-					key={item.id}
-					item={item}
+			{categories && categories.map(category => (
+				<CategoryListCategory
+					key={category.id}
+					category={category}
 					classes={classes}
-					deleteItem={() => deleteItem(item.id)}
+					deleteCategory={() => deleteCategory(category.id)}
 				/>
 			))}
 		</Grid>
 	</div>
 );
-ItemList.propTypes = {
-	items: PropTypes.array,
-	deleteItem: PropTypes.func.isRequired,
+CategoryList.propTypes = {
+	categories: PropTypes.array,
+	deleteCategory: PropTypes.func.isRequired,
 	classes: PropTypes.object.isRequired,
 };
 
 
-export default withStyles(styles)(ItemList);
+export default withStyles(styles)(CategoryList);
 export {
-	ItemList,
-	ItemListItem,
+	CategoryList,
+	CategoryListCategory,
 };

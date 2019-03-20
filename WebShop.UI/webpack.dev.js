@@ -17,15 +17,19 @@ module.exports = merge(common, {
 		hot: true,
 		historyApiFallback: true,
 		// host: '0.0.0.0',
-		proxy: {
-			'/api': {
-				target: 'http://localhost:8000',
-				pathRewrite: {'^/api': ''}
-			},
-			'/static': {
-				target: 'http://localhost:8000',
-			}
-		}
+		/*
+				proxy: {
+					'/api/!**': {
+						target: 'http://localhost:8000',
+						pathRewrite: {'^/api': ''},
+						secure: false,
+						changeOrigin: true,
+					},
+					'/static': {
+						target: 'http://localhost:8000',
+					}
+				}
+		*/
 	},
 	plugins: [
 		new LiveReloadPlugin({
