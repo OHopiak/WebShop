@@ -13,7 +13,7 @@ const globalStyles = {
 		},
 		'#app': {
 			height: '100%',
-			display: 'flex',
+			// display: 'flex',
 		},
 		a: {
 			'&, &:hover, &:visited, &:active': {

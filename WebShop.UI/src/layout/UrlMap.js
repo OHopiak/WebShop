@@ -14,33 +14,6 @@ const useModifier = (component, name) => {
 	return modifier ? modifier(component) : component;
 };
 
-/*const UrlItem = ({url, component, urlPrefix}) => {
-	const Component = url.modifiers ?
-		url.modifiers.reduce(useModifier, component) : component;
-	return (
-		<Route exact={!url.routes && url.exact}
-			   path={urlPrefix + url.path} component={url.routes ? () => (
-			<Switch>
-				<Route exact path={urlPrefix + url.path}
-					   component={Component}/>
-				<UrlMap urls={url.routes} urlPrefix={urlPrefix + url.path}/>
-			</Switch>
-		) : Component
-		}/>
-	);
-};
-
-const UrlMap = ({urls, urlPrefix = ''}) => (
-	<React.Fragment>
-		{Object.entries(urls).map(([name, url]) => {
-			return (
-				<UrlItem key={name} urlPrefix={urlPrefix}
-						 url={url} component={url.component}/>
-			)
-		})}
-	</React.Fragment>
-);*/
-
 const urlItem = (url, urlPrefix, key) => {
 	const {component} = url;
 	const Component = url.modifiers ?
@@ -65,7 +38,5 @@ const urlMap = (urls, urlPrefix = '') => Object.entries(urls).map(([name, url]) 
 
 
 export {
-	// UrlItem,
-	// UrlMap,
 	urlMap,
 };

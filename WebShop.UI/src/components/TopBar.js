@@ -20,8 +20,8 @@ const styles = theme => ({
 		// flexGrow: 1
 	},
 	heading: {
-		position: 'relative',
-		width: '100vw',
+		position: 'fixed',
+		top: 0,
 		transition: theme.transitions.create(['width', 'margin-left'], {
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.enteringScreen,
@@ -97,6 +97,7 @@ class TopBar extends React.Component {
 		const {mobileMoreAnchorEl} = this.state;
 		const {title, classes, collapsed, toggleCollapse, additional: Additional} = this.props;
 		const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+		const urlPairs = Object.entries(routes.urls).filter(([name, url]) => !(url.modifiers && url.modifiers.includes("hideTopMenu")));
 		const renderMobileMenu = (
 			<Menu
 				anchorEl={mobileMoreAnchorEl}
@@ -105,7 +106,7 @@ class TopBar extends React.Component {
 				open={isMobileMenuOpen}
 				onClose={this.handleMenuClose}
 			>
-				{Object.entries(routes.urls).map(([urlName, url]) => {
+				{urlPairs.map(([urlName, url]) => {
 					const {path, icon: Icon, name} = url;
 					return (
 						<ModifierWrapper key={urlName} modifiers={url.modifiers}>
@@ -140,7 +141,7 @@ class TopBar extends React.Component {
 						<div className={classes.grow}/>
 						{Additional && <Additional/>}
 						<div className={classes.sectionDesktop}>
-							{Object.entries(routes.urls).map(([name, url]) => (
+							{urlPairs.map(([name, url]) => (
 								<ModifierWrapper key={name} modifiers={url.modifiers}>
 									<TopMenuItem url={url} name={name}/>
 								</ModifierWrapper>

@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import MenuBurger from 'src/img/menu-burger.svg';
 import MenuGrid from 'src/img/menu-grid.svg';
 import ContentBase from './ContentBase';
