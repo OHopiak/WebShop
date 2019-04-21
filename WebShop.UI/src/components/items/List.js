@@ -15,6 +15,7 @@ import {
 	Grid,
 	Typography
 } from '@material-ui/core';
+import {ShowOnAdminMode} from "../decorators/showOnLoginStatus";
 
 const styles = theme => ({
 	root: {
@@ -60,25 +61,27 @@ const ItemListItem = ({item, deleteItem, classes}) => {
 							title={name}
 						/>
 						<CardContent className={classes.cardContent}>
-							<Typography variant="h6" component="h2" className={classes.name}>
+							<Typography gutterBottom variant="h6" component="h2" className={classes.name}>
 								{name}
 							</Typography>
-							<Typography variant="h5" component="h2" className={classes.price}>
+							<Typography gutterBottom variant="h5" component="h2" className={classes.price}>
 								{price.toFixed(2)}
 							</Typography>
 						</CardContent>
 					</Link>
 				</CardActionArea>
-				<CardActions>
-					<Link to={getUrl('items.edit', {id})}>
-						<Button size="small" color="primary" variant="contained">
-							Edit
+				<ShowOnAdminMode>
+					<CardActions>
+						<Link to={getUrl('items.edit', {id})}>
+							<Button size="small" color="primary" variant="contained">
+								Edit
+							</Button>
+						</Link>
+						<Button size="small" color="secondary" variant="contained" onClick={deleteItem}>
+							Delete
 						</Button>
-					</Link>
-					<Button size="small" color="secondary" variant="contained" onClick={deleteItem}>
-						Delete
-					</Button>
-				</CardActions>
+					</CardActions>
+				</ShowOnAdminMode>
 			</Card>
 		</Grid>
 	);
@@ -92,11 +95,13 @@ ItemListItem.propTypes = {
 
 const ItemList = ({items, deleteItem, classes}) => (
 	<div className={classes.items}>
-		<Link to={getUrl('items.create')}>
-			<Fab color="primary" aria-label="Add" className={classes.createButton}>
-				<AddIcon/>
-			</Fab>
-		</Link>
+		<ShowOnAdminMode>
+			<Link to={getUrl('items.create')}>
+				<Fab color="primary" aria-label="Add" className={classes.createButton}>
+					<AddIcon/>
+				</Fab>
+			</Link>
+		</ShowOnAdminMode>
 		<Grid container>
 			{items && items.map(item => (
 				<ItemListItem

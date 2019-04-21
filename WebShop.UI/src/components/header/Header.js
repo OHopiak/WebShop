@@ -1,7 +1,7 @@
 import React from "react";
 import DocumentTitle from 'react-document-title';
 import * as PropTypes from "prop-types";
-import {APP_TITLE} from '../configs/configs.json'
+import {APP_TITLE} from '../../configs/configs.json'
 import TopBar from "./TopBar";
 
 const HeaderContext = React.createContext({});

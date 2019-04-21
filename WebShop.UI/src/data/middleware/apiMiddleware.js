@@ -2,6 +2,7 @@ import qs from 'query-string'
 
 import {API_PREFIX_TYPE} from '../modules/api';
 import {NOP_ACTION} from '../actions';
+import {addError} from "../modules/errors";
 
 const normalize = target => target.reduce((map, obj) => {
 	map[obj.id] = obj;
@@ -59,7 +60,7 @@ const apiMiddleware = config => store => next => action => {
 		else
 			options.body = JSON.stringify(body);
 	}
-	console.log({url, options});
+	console.log(options);
 	fetch(url, options)
 		.then(resp => {
 			if (resp.status < 200 || resp.status >= 300)
@@ -96,15 +97,29 @@ const apiMiddleware = config => store => next => action => {
 			console.log(newAction);
 			next(newAction);
 		})
-		.catch(error => {
-			if (error.json) {
-				error.json()
-					.then(data => console.log("Request failed: " + data.detail))
-					.catch(error => console.log("Request failed, unexpected error: " + error));
-			} else {
-				console.log("Request failed, unexpected error: " + error)
+		.catch(response => {
+			if (!response.status) {
+				console.error("Request failed, unexpected error: " + response);
+				return;
 			}
-			next(NOP_ACTION);
+			const error = {
+				status: response.status,
+				message: response.statusText,
+			};
+
+			response.json()
+				.then(data => {
+					console.log(data);
+					error.details = data.detail;
+					next(addError(error));
+				})
+				.catch(err => {
+					error.details = err;
+					console.log(err);
+					next(addError(error));
+				});
+
+			console.log(response);
 		});
 };
 

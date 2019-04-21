@@ -45,9 +45,9 @@ class ItemCreateEdit extends React.Component {
 	handleSubmit = e => {
 		e.preventDefault();
 		const data = this.state;
-		if (this.validate(data))
+		if (this.validate(data)) {
 			this.props.handleSubmit(data);
-		else {
+		} else {
 			console.error("Failed to process the form:");
 			console.error(data);
 		}
@@ -55,12 +55,16 @@ class ItemCreateEdit extends React.Component {
 
 	validate = data => {
 		const {name, description, price} = data;
+
+		// WARNING: a crazy workaround, stopped working after the recent accidental deletion of the backend folder
+		if (data.category === 0) data.category = null;
+
 		return !!name && !!description && !isNaN(price) && price > 0;
 	};
 
 	render() {
 		const {classes, categories} = this.props;
-		const {name, description, price} = this.state;
+		const {name, description, price, category} = this.state;
 		return (
 			<Paper className={classes.container}>
 				<form className={classes.form} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
@@ -86,7 +90,7 @@ class ItemCreateEdit extends React.Component {
 						label="Category"
 						fullWidth
 						className={classes.textField}
-						value={this.state.category}
+						value={category}
 						onChange={this.handleChange('category')}
 						// InputProps={{
 						// 	startAdornment: <InputAdornment position="start">Kg</InputAdornment>,

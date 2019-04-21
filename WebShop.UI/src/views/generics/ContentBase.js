@@ -3,12 +3,12 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import cn from 'classnames';
 import {grey} from '@material-ui/core/colors';
 import {APP_TITLE} from '../../configs/configs.json'
-import {HeaderTitle} from "../../components/Header";
+import {HeaderTitle} from "../../components/header/Header";
 
 const styles = () => ({
 	page: {
 		height: '100vh',
-		marginTop: 64,
+		paddingTop: 64,
 	},
 	content: ({
 		height: '100%',
