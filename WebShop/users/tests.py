@@ -34,7 +34,7 @@ class UserViewSetTest(TestCase):
 	}
 
 	def setUp(self):
-		self.superuser = User.objects.create_superuser('unit', 'unit@test.com', 'unitpass')
+		self.superuser = User.objects.create_superuser('unit', 'unit@test.com', 'unitpass', is_staff=True, is_active=True)
 
 	def test_details(self):
 		request = APIRequestFactory().get('')
@@ -56,7 +56,6 @@ class UserViewSetTest(TestCase):
 
 		request = APIRequestFactory().post('', data)
 		force_authenticate(request, user=self.superuser)
-
 		user_create = UserViewSet.as_view({'post': 'create'})
 		response = user_create(request)
 		self.assertEqual(response.status_code, 201, 'failed to create the user')
