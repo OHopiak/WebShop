@@ -1,5 +1,5 @@
 import {API_PREFIX_TYPE} from './api';
-import {cookies} from "../../configs";
+import {cookies} from '../../configs';
 
 // Types
 const TOKEN_PREFIX = API_PREFIX_TYPE + 'TOKEN:';
@@ -34,7 +34,9 @@ const getToken = ({username, password, remember = false}) => ({
  */
 const setToken = token => ({
 	type: TOKEN.GET,
-	payload: {token}
+	payload: {
+		data: {token},
+	}
 });
 
 /**
@@ -60,7 +62,7 @@ const initState = {
 const authReducer = (state = initState, action) => {
 	switch (action.type) {
 		case TOKEN.GET:
-			return {...state, token: action.payload.token, loggedIn: true};
+			return {...state, token: action.payload.data.token, loggedIn: true};
 		case TOKEN.CLEAR:
 			return {...state, loggedIn: false};
 		default:

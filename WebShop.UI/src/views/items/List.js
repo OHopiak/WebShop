@@ -1,12 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
-import qs from 'query-string'
+import * as PropTypes from 'prop-types';
+import * as qs from 'query-string';
 
 import {getItems, getUsers} from 'src/data/actions';
-import {ListBase} from 'src/views/generics';
+import {ContentBase} from 'src/views/generics';
 import {ItemList} from 'src/components/items';
-import {deleteItem, selectItemList} from "src/data/modules/items";
+import {deleteItem, selectItemList} from 'src/data/modules/items';
 
 const setupStore = connect((store) => ({
 	items: selectItemList(store),
@@ -38,9 +38,9 @@ class ItemsListView extends React.PureComponent {
 			i.name.toLowerCase().includes(search.toLowerCase())
 		);
 		return (
-			<ListBase title={'Items'}>
+			<ContentBase title={'Items'}>
 				<ItemList items={items} deleteItem={deleteItem}/>
-			</ListBase>
+			</ContentBase>
 		);
 	}
 }

@@ -1,6 +1,5 @@
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
-import blue from '@material-ui/core/es/colors/blue';
-import indigo from '@material-ui/core/es/colors/indigo';
+import {blue, pink} from '@material-ui/core/colors';
 
 
 const headerWidth = 255;
@@ -11,7 +10,7 @@ const theme = createMuiTheme({
 		// type: 'dark',
 		type: 'light',
 		primary: blue,
-		secondary: indigo,
+		secondary: pink,
 		// text: {
 		// 	primary: '#3e5f79'
 		// },

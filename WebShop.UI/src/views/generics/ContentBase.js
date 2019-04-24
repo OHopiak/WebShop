@@ -1,17 +1,17 @@
 import React from 'react';
-import DocumentTitle from 'react-document-title';
 import withStyles from '@material-ui/core/styles/withStyles';
 import cn from 'classnames';
 import {grey} from '@material-ui/core/colors';
-import {APP_TITLE} from '../../configs/configs.json'
-import TopBar from "../../components/TopBar";
+import {APP_TITLE} from '../../configs/configs.json';
+import {HeaderTitle} from '../../components/header/Header';
 
 const styles = () => ({
 	page: {
-		height: '100%',
+		height: '100vh',
+		paddingTop: 64,
 	},
 	content: ({
-		height: 'calc(100vh - 64px)',
+		height: '100%',
 		overflow: 'auto',
 		backgroundColor: grey[200],
 	}),
@@ -19,14 +19,13 @@ const styles = () => ({
 
 
 const ContentBase = ({title = APP_TITLE, additional, classes, children}) => (
-	<DocumentTitle title={title}>
+	<HeaderTitle title={title}>
 		<div className={cn(classes.page)}>
-			<TopBar title={title} additional={additional}/>
 			<div className={classes.content}>
 				{children}
 			</div>
 		</div>
-	</DocumentTitle>
+	</HeaderTitle>
 );
 
 export default withStyles(styles)(ContentBase);

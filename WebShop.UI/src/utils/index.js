@@ -3,6 +3,13 @@ const toQueryParams = (obj) =>
 		.map(key => `${key}=${encodeURIComponent(obj[key])}`)
 		.join('&');
 
+const normalize = target => target.reduce((map, obj) => {
+	map[obj.id] = obj;
+	return map;
+}, {});
+
+
 export {
-	toQueryParams
+	toQueryParams,
+	normalize,
 };

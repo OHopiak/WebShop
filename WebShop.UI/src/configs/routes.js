@@ -1,14 +1,13 @@
 import React from 'react';
 import HomeIcon from '@material-ui/icons/Home';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AppsIcon from '@material-ui/icons/Apps';
 import MessageIcon from '@material-ui/icons/Message';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 import FaceIcon from '@material-ui/icons/Face';
-import {Footer, Header, Home, Login, Logout, Messages, NotFound} from 'src/components';
+import {Footer, Home, Login, Logout, Messages, NotFound} from 'src/components';
 import {ItemsCreateEditView, ItemsDetailsView, ItemsListView} from 'src/views/items';
 import UsersListView from 'src/views/users/List';
-import {CategoriesCreateEditView, CategoriesDetailsView, CategoriesListView} from "../views/categories";
+import {CategoriesCreateEditView, CategoriesDetailsView, CategoriesListView} from '../views/categories';
 
 const routes = {
 	urls: {
@@ -24,7 +23,8 @@ const routes = {
 			name: 'Items',
 			exact: true,
 			component: ItemsListView,
-			icon: ShoppingCartIcon,
+			icon: AppsIcon,
+// icon: ShoppingCartIcon,
 			routes: {
 				create: {
 					path: '/create',
@@ -32,6 +32,7 @@ const routes = {
 					exact: true,
 					enableCustomUrls: true,
 					component: ItemsCreateEditView,
+					modifiers: ['loginRequired'],
 				},
 				edit: {
 					path: '/:id/edit',
@@ -39,6 +40,7 @@ const routes = {
 					exact: true,
 					enableCustomUrls: true,
 					component: ItemsCreateEditView,
+					modifiers: ['loginRequired'],
 				},
 				details: {
 					path: '/:id',
@@ -48,14 +50,13 @@ const routes = {
 					component: ItemsDetailsView,
 				},
 			},
-			// modifiers: ['loginRequired'],
+			modifiers: ['loginRequired'], //TODO: remove
 		},
 		categories: {
 			path: '/categories',
 			name: 'Categories',
 			exact: true,
 			component: CategoriesListView,
-			icon: AppsIcon,
 			routes: {
 				create: {
 					path: '/create',
@@ -79,7 +80,7 @@ const routes = {
 					component: CategoriesDetailsView,
 				},
 			},
-			// modifiers: ['loginRequired'],
+			modifiers: ['hideTopMenu'],
 		},
 		users: {
 			path: '/users',
@@ -104,7 +105,6 @@ const routes = {
 		}
 	},
 	Login: Login,
-	Header: Header,
 	Footer: Footer,
 	NotFound: NotFound,
 };

@@ -1,10 +1,10 @@
-import React from "react";
-import {withRouter} from 'react-router-dom'
-import * as qs from "query-string";
-import {InputBase} from "@material-ui/core";
+import React from 'react';
+import {withRouter} from 'react-router-dom';
+import * as qs from 'query-string/index';
+import {InputBase} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import {fade} from "@material-ui/core/styles/colorManipulator";
-import withStyles from "@material-ui/core/styles/withStyles";
+import {fade} from '@material-ui/core/styles/colorManipulator';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = theme => ({
 	search: {
@@ -52,7 +52,7 @@ const styles = theme => ({
 @withRouter
 class SearchBar extends React.Component {
 	state = {
-		search: "",
+		search: '',
 	};
 
 	handleChange = e => {
@@ -64,13 +64,13 @@ class SearchBar extends React.Component {
 		const {search} = this.state;
 		const {history} = this.props;
 		const {location} = history;
-		location.search = !!search ? qs.stringify({search}) : '';
+		location.search = search ? qs.stringify({search}) : '';
 		history.push(location);
 		this.setState({search: ''});
 	};
 
 	handleEnter = e => {
-		if (e.key === 'Enter') this.handleSubmit()
+		if (e.key === 'Enter') this.handleSubmit();
 	};
 
 	render() {
@@ -92,8 +92,8 @@ class SearchBar extends React.Component {
 					}}
 				/>
 			</div>
-		)
-	};
+		);
+	}
 }
 
 export default SearchBar;

@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 import {getUrl} from 'src/configs/routes';
@@ -15,38 +15,41 @@ import {
 	Grid,
 	Typography
 } from '@material-ui/core';
+import {ShowOnAdminMode} from '../decorators/showOnLoginStatus';
 
 const styles = theme => ({
 	root: {
 		padding: 10,
 	},
 	items: {
-		height: theme.vars.contentHeight,
 		overflow: 'auto',
 		padding: 5,
 	},
-	item: {
-		// height: '100%',
-	},
+	item: {},
 	media: {
 		height: 140,
 	},
 	createButton: {
-		position: 'absolute',
+		position: 'fixed',
 		bottom: theme.spacing.unit * 2,
 		right: theme.spacing.unit * 2,
 		zIndex: 1,
 	},
 	cardContent: {
+		display: 'flex',
 		paddingTop: theme.spacing.unit,
-		"&:last-child": {
+		'&:last-child': {
 			paddingBottom: 0,
 		}
 	},
+	name: {
+		flex: 1,
+	},
+	price: {},
 });
 
 const ItemListItem = ({item, deleteItem, classes}) => {
-	const {id, name} = item;
+	const {id, name, price} = item;
 	return (
 		<Grid item xs={12} sm={6} md={4} lg={3} className={classes.root}>
 			<Card className={classes.item}>
@@ -58,22 +61,27 @@ const ItemListItem = ({item, deleteItem, classes}) => {
 							title={name}
 						/>
 						<CardContent className={classes.cardContent}>
-							<Typography gutterBottom variant="h5" component="h2">
+							<Typography gutterBottom variant="h6" component="h2" className={classes.name}>
 								{name}
+							</Typography>
+							<Typography gutterBottom variant="h5" component="h2" className={classes.price}>
+								{price.toFixed(2)}
 							</Typography>
 						</CardContent>
 					</Link>
 				</CardActionArea>
-				<CardActions>
-					<Link to={getUrl('items.edit', {id})}>
-						<Button size="small" color="primary" variant="contained">
-							Edit
+				<ShowOnAdminMode>
+					<CardActions>
+						<Link to={getUrl('items.edit', {id})}>
+							<Button size="small" color="primary" variant="contained">
+								Edit
+							</Button>
+						</Link>
+						<Button size="small" color="secondary" variant="contained" onClick={deleteItem}>
+							Delete
 						</Button>
-					</Link>
-					<Button size="small" color="secondary" variant="contained" onClick={deleteItem}>
-						Delete
-					</Button>
-				</CardActions>
+					</CardActions>
+				</ShowOnAdminMode>
 			</Card>
 		</Grid>
 	);
@@ -87,11 +95,13 @@ ItemListItem.propTypes = {
 
 const ItemList = ({items, deleteItem, classes}) => (
 	<div className={classes.items}>
-		<Link to={getUrl('items.create')}>
-			<Fab color="primary" aria-label="Add" className={classes.createButton}>
-				<AddIcon/>
-			</Fab>
-		</Link>
+		<ShowOnAdminMode>
+			<Link to={getUrl('items.create')}>
+				<Fab color="primary" aria-label="Add" className={classes.createButton}>
+					<AddIcon/>
+				</Fab>
+			</Link>
+		</ShowOnAdminMode>
 		<Grid container>
 			{items && items.map(item => (
 				<ItemListItem

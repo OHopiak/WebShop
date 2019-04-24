@@ -1,8 +1,8 @@
 import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
-import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
-import {Button} from "@material-ui/core";
+import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
+import {Button} from '@material-ui/core';
 
 const styles = theme => ({
 	container: {
@@ -44,7 +44,7 @@ class CategoryCreateEdit extends React.Component {
 		if (this.validate(data))
 			this.props.handleSubmit(data);
 		else {
-			console.error("Failed to process the form:");
+			console.error('Failed to process the form:');
 			console.error(data);
 		}
 	};
