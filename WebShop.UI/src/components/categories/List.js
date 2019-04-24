@@ -29,7 +29,7 @@ const styles = theme => ({
 	},
 	cardContent: {
 		paddingTop: theme.spacing.unit,
-		"&:last-child": {
+		'&:last-child': {
 			paddingBottom: 0,
 		}
 	},

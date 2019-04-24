@@ -3,8 +3,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {ContentBase} from 'src/views/generics';
-import {CategoryCreateEdit} from "src/components/categories";
-import {createCategory, editCategory, getCategory, selectCategoryById} from "../../data/modules/categories";
+import {CategoryCreateEdit} from 'src/components/categories';
+import {createCategory, editCategory, getCategory, selectCategoryById} from '../../data/modules/categories';
 
 const setupStore = connect((store, {match}) => ({
 	category: selectCategoryById(store)(match.params.id),
@@ -27,7 +27,7 @@ class CategoriesCreateEditView extends React.PureComponent {
 	componentWillMount() {
 		const {match, getCategory} = this.props;
 		const id = match.params.id;
-		if (!!id) getCategory();
+		if (id) getCategory();
 	}
 
 	handleSubmit = data => {
@@ -40,7 +40,7 @@ class CategoriesCreateEditView extends React.PureComponent {
 
 	render() {
 		const {category} = this.props;
-		const title = category ? `Edit ${category.name}` : "Create Category";
+		const title = category ? `Edit ${category.name}` : 'Create Category';
 		return (
 			<ContentBase title={title}>
 				<CategoryCreateEdit category={category} handleSubmit={this.handleSubmit}/>

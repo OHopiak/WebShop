@@ -15,7 +15,7 @@ import {
 	Grid,
 	Typography
 } from '@material-ui/core';
-import {ShowOnAdminMode} from "../decorators/showOnLoginStatus";
+import {ShowOnAdminMode} from '../decorators/showOnLoginStatus';
 
 const styles = theme => ({
 	root: {
@@ -38,7 +38,7 @@ const styles = theme => ({
 	cardContent: {
 		display: 'flex',
 		paddingTop: theme.spacing.unit,
-		"&:last-child": {
+		'&:last-child': {
 			paddingBottom: 0,
 		}
 	},

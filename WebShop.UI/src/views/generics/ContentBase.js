@@ -2,8 +2,8 @@ import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import cn from 'classnames';
 import {grey} from '@material-ui/core/colors';
-import {APP_TITLE} from '../../configs/configs.json'
-import {HeaderTitle} from "../../components/header/Header";
+import {APP_TITLE} from '../../configs/configs.json';
+import {HeaderTitle} from '../../components/header/Header';
 
 const styles = () => ({
 	page: {

@@ -7,7 +7,7 @@ import FaceIcon from '@material-ui/icons/Face';
 import {Footer, Home, Login, Logout, Messages, NotFound} from 'src/components';
 import {ItemsCreateEditView, ItemsDetailsView, ItemsListView} from 'src/views/items';
 import UsersListView from 'src/views/users/List';
-import {CategoriesCreateEditView, CategoriesDetailsView, CategoriesListView} from "../views/categories";
+import {CategoriesCreateEditView, CategoriesDetailsView, CategoriesListView} from '../views/categories';
 
 const routes = {
 	urls: {
@@ -32,6 +32,7 @@ const routes = {
 					exact: true,
 					enableCustomUrls: true,
 					component: ItemsCreateEditView,
+					modifiers: ['loginRequired'],
 				},
 				edit: {
 					path: '/:id/edit',
@@ -39,6 +40,7 @@ const routes = {
 					exact: true,
 					enableCustomUrls: true,
 					component: ItemsCreateEditView,
+					modifiers: ['loginRequired'],
 				},
 				details: {
 					path: '/:id',
@@ -48,6 +50,7 @@ const routes = {
 					component: ItemsDetailsView,
 				},
 			},
+			modifiers: ['loginRequired'], //TODO: remove
 		},
 		categories: {
 			path: '/categories',

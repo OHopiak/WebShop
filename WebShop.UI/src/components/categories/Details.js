@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Debug from '../utils/Debug';
-import {Row} from "../utils/GridHelpers";
+import {Row} from '../utils/GridHelpers';
 
 const styles = theme => ({
 	root: {

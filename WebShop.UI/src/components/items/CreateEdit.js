@@ -1,9 +1,9 @@
 import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
-import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
-import {Button} from "@material-ui/core";
-import MenuItem from "@material-ui/core/MenuItem";
+import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
+import {Button} from '@material-ui/core';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const styles = theme => ({
 	container: {
@@ -29,13 +29,20 @@ class ItemCreateEdit extends React.Component {
 	constructor(props) {
 		super(props);
 		const {item = {}} = this.props;
-		this.state = {
-			name: item.name || '',
-			description: item.description || '',
-			price: item.price || '',
-			category: item.category || 0,
-		};
+		this.state = this.initState(item);
 	}
+
+	componentWillReceiveProps(nextProps, nextContext) {
+		const {item = {}} = nextProps;
+		this.setState(() => this.initState(item));
+	}
+
+	initState = item => ({
+		name: item.name || '',
+		description: item.description || '',
+		price: item.price || '',
+		category: item.category || 0,
+	});
 
 	handleChange = name => event => {
 		const {value} = event.target;
@@ -48,7 +55,7 @@ class ItemCreateEdit extends React.Component {
 		if (this.validate(data)) {
 			this.props.handleSubmit(data);
 		} else {
-			console.error("Failed to process the form:");
+			console.error('Failed to process the form:');
 			console.error(data);
 		}
 	};
@@ -63,8 +70,11 @@ class ItemCreateEdit extends React.Component {
 	};
 
 	render() {
-		const {classes, categories} = this.props;
+		const {item, classes, categories} = this.props;
 		const {name, description, price, category} = this.state;
+
+		console.log('In component:');
+		console.log(item);
 		return (
 			<Paper className={classes.container}>
 				<form className={classes.form} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
@@ -117,7 +127,7 @@ class ItemCreateEdit extends React.Component {
 					/>
 
 					<Button variant='contained' color='primary' onClick={this.handleSubmit}
-							className={classes.submitBtn}>Create</Button>
+							className={classes.submitBtn}>{!item ? 'Create' : 'Edit'}</Button>
 				</form>
 			</Paper>
 		);

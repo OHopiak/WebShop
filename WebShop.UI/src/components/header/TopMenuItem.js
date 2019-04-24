@@ -1,6 +1,6 @@
-import {Link} from "react-router-dom";
-import {IconButton, MenuItem} from "@material-ui/core";
-import React from "react";
+import {Link} from 'react-router-dom';
+import {IconButton, MenuItem} from '@material-ui/core';
+import React from 'react';
 
 const TopMenuItem = ({url, name, onMobileClose, mobile = false, children}) => {
 	return (
@@ -18,7 +18,7 @@ const TopMenuItem = ({url, name, onMobileClose, mobile = false, children}) => {
 			</IconButton>
 			}
 		</Link>
-	)
+	);
 };
 
 export default TopMenuItem;

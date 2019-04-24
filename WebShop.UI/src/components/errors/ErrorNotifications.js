@@ -1,8 +1,8 @@
 import React from 'react';
-import {connect} from "react-redux";
-import {resolveError} from "src/data/modules/errors";
-import Snackbar from "@material-ui/core/Snackbar/index";
-import IconButton from "@material-ui/core/IconButton/index";
+import {connect} from 'react-redux';
+import {resolveError} from 'src/data/modules/errors';
+import Snackbar from '@material-ui/core/Snackbar/index';
+import IconButton from '@material-ui/core/IconButton/index';
 import CloseIcon from '@material-ui/icons/Close';
 
 const setupStore = connect((store) => ({

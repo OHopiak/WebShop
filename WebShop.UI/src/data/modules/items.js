@@ -1,5 +1,5 @@
 import {apiEndpoint} from './api';
-import {createEndpointUrl} from "../../configs/urls";
+import {createEndpointUrl} from '../../configs/urls';
 
 const endpoint = '/items';
 

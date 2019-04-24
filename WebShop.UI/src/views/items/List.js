@@ -1,12 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
-import * as qs from 'query-string'
+import * as qs from 'query-string';
 
 import {getItems, getUsers} from 'src/data/actions';
 import {ContentBase} from 'src/views/generics';
 import {ItemList} from 'src/components/items';
-import {deleteItem, selectItemList} from "src/data/modules/items";
+import {deleteItem, selectItemList} from 'src/data/modules/items';
 
 const setupStore = connect((store) => ({
 	items: selectItemList(store),

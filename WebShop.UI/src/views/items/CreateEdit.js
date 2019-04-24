@@ -2,13 +2,14 @@ import React from 'react';
 
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {ContentBase} from 'src/views/generics';
-import {ItemCreateEdit} from "src/components/items";
-import {createItem, editItem, getItem, selectItemById} from "src/data/modules/items";
-import {getCategories, selectCategoryList} from "../../data/modules/categories";
+import {ContentBase} from '../../views/generics';
+import {ItemCreateEdit} from '../../components/items';
+import {createItem, editItem, getItem, selectItemById} from '../../data/modules/items';
+import {getCategories, selectCategoryList} from '../../data/modules/categories';
+import {getUrl} from '../../configs/routes';
 
 const setupStore = connect((store, {match}) => ({
-	item: selectItemById(store)(match.params.id),
+	item: selectItemById(store)(+match.params.id),
 	categories: selectCategoryList(store),
 }), (dispatch, {match}) => ({
 	getItem: () => {
@@ -25,28 +26,36 @@ const setupStore = connect((store, {match}) => ({
 class ItemCreateEditView extends React.PureComponent {
 	static propTypes = {
 		item: PropTypes.object,
-		// getItem: PropTypes.func.isRequired,
 		match: PropTypes.object.isRequired,
+		getItem: PropTypes.func.isRequired,
+		createItem: PropTypes.func.isRequired,
+		editItem: PropTypes.func.isRequired,
+		getCategories: PropTypes.func.isRequired,
+		history: PropTypes.object.isRequired,
 	};
 
 	componentWillMount() {
 		const {match, getItem, categories, getCategories} = this.props;
 		const id = match.params.id;
-		if (!!id) getItem();
+		if (id) getItem();
 		if (!categories) getCategories();
 	}
 
 	handleSubmit = data => {
-		const {item, createItem, editItem} = this.props;
+		const {item, createItem, editItem, history} = this.props;
 		if (item)
 			editItem({id: item.id, ...data});
 		else
 			createItem(data);
+
+		const {location} = history;
+		location.pathname = getUrl('items');
+		history.push(location);
 	};
 
 	render() {
 		const {item, categories} = this.props;
-		const title = item ? `Edit ${item.name}` : "Create Item";
+		const title = item ? `Edit ${item.name}` : 'Create Item';
 		return (
 			<ContentBase title={title}>
 				<ItemCreateEdit item={item}

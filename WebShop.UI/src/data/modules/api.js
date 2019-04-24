@@ -1,6 +1,15 @@
-import {createEndpointUrl} from "../../configs/urls";
+import {createEndpointUrl} from '../../configs/urls';
 
 const API_PREFIX_TYPE = 'API:';
+
+const GET_ALL = 'GET_ALL';
+const GET_FILTERED = 'GET_FILTERED';
+const GET = 'GET';
+const NEXT = 'NEXT';
+const CLEAR_LAST = 'CLEAR_LAST';
+const CREATE = 'CREATE';
+const EDIT = 'EDIT';
+const DELETE = 'DELETE';
 
 const generateListActionType = name => {
 	const prefix = API_PREFIX_TYPE + name + ':';
@@ -84,9 +93,11 @@ const apiEndpoint = (type, endpoint, initState = {}) => {
 					fetched: true,
 				};
 			case TYPE.EDIT: {
-				const position = state.list.findIndex(x => +x.id === +action.payload.data.id);
-				const newList = [...state.list];
-				newList[position] = action.payload.data;
+				const newList = [...(state.list || [])];
+				if (state.list) {
+					const position = state.list.findIndex(x => +x.id === +action.payload.data.id);
+					newList[position] = action.payload.data;
+				}
 				return {
 					...state,
 					set: {
@@ -171,4 +182,13 @@ export {
 	API_PREFIX_TYPE,
 	generateListActionType,
 	apiEndpoint,
+
+	GET_ALL,
+	GET_FILTERED,
+	GET,
+	NEXT,
+	CLEAR_LAST,
+	CREATE,
+	EDIT,
+	DELETE,
 };

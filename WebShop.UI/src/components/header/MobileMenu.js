@@ -1,5 +1,5 @@
-import React from "react";
-import {Menu} from "@material-ui/core";
+import React from 'react';
+import {Menu} from '@material-ui/core';
 
 const MobileMenu = ({anchorEl, open, onClose, onMobileClose, children}) => {
 	const childrenWithProps = React.Children.map(children, child =>
@@ -15,7 +15,7 @@ const MobileMenu = ({anchorEl, open, onClose, onMobileClose, children}) => {
 		>
 			{childrenWithProps}
 		</Menu>
-	)
+	);
 };
 
 export default MobileMenu;

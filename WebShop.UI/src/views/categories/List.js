@@ -2,10 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {deleteCategory, getCategories, selectCategoryList} from "src/data/modules/categories";
+import {deleteCategory, getCategories, selectCategoryList} from 'src/data/modules/categories';
 import {ListBase} from 'src/views/generics';
 import {CategoryList} from 'src/components/categories';
-import qs from "query-string";
+import qs from 'query-string';
 
 const setupStore = connect((store) => ({
 	categories: selectCategoryList(store),
