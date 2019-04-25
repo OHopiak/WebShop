@@ -6,7 +6,7 @@ from .models import UserProfile
 
 
 class UserSerializer(serializers.ModelSerializer):
-	url = serializers.HyperlinkedRelatedField(view_name='users-detail', read_only=True)
+	url = serializers.HyperlinkedIdentityField(view_name='user-detail', read_only=True)
 	password = serializers.CharField(
 		write_only=True,
 		required=True,
@@ -48,7 +48,7 @@ class AdminUserSerializer(UserSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-	# url = serializers.HyperlinkedRelatedField(view_name='user_profile-detail', read_only=True)
+	# url = serializers.HyperlinkedIdentityField(view_name='user_profile-detail', read_only=True)
 	class Meta:
 		model = UserProfile
 		fields = ('id', 'user',)
